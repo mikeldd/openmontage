@@ -1,0 +1,71 @@
+name: Theranos OpenMontage Edit Compose
+
+on:
+  push:
+    branches:
+      - production/theranos-episode-1
+    paths:
+      - "production/theranos-episode-1/theranos_atelier.tsx"
+      - "production/theranos-episode-1/run_edit_compose.py"
+      - ".github/workflows/theranos-edit-compose.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  edit-compose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout OpenMontage
+        uses: actions/checkout@v4
+
+      - name: Restore approved OpenMontage asset project
+        uses: actions/download-artifact@v4
+        with:
+          name: theranos-openmontage-full-assets
+          path: projects/healthcare-autopsy-theranos-e01
+          github-token: ${{ github.token }}
+          repository: mikeldd/openmontage
+          run-id: 37511241829
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: remotion-composer/package-lock.json
+
+      - name: Install FFmpeg and OpenMontage dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m venv .venv
+          .venv/bin/python -m pip install --upgrade pip
+          .venv/bin/python -m pip install -r requirements.txt
+          cd remotion-composer
+          npm ci
+
+      - name: Execute OpenMontage edit and compose
+        run: .venv/bin/python production/theranos-episode-1/run_edit_compose.py
+
+      - name: Upload final OpenMontage episode
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: healthcare-autopsy-theranos-openmontage-final
+          path: |
+            projects/healthcare-autopsy-theranos-e01/renders/
+            projects/healthcare-autopsy-theranos-e01/artifacts/
+            projects/healthcare-autopsy-theranos-e01/checkpoint_edit.json
+            projects/healthcare-autopsy-theranos-e01/checkpoint_compose.json
+          if-no-files-found: warn
+          retention-days: 14
