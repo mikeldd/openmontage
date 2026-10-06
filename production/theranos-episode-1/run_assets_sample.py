@@ -10,7 +10,7 @@ if str(ROOT) not in sys.path:
 from lib.checkpoint import init_project, write_checkpoint
 from tools.audio.piper_tts import PiperTTS
 from tools.video.stock_sources.base import SearchFilters
-from tools.video.stock_sources.coverr import CoverrSource
+from tools.video.stock_sources.wikimedia import WikimediaSource
 
 PROJECT_ID = "healthcare-autopsy-theranos-e01"
 PACKAGE_PATH = ROOT / "production" / "theranos-episode-1" / "approved_package.json"
@@ -57,17 +57,18 @@ def main():
         raise RuntimeError(tts_result.error)
 
     # ---- Required representative visual sample ----
-    source = CoverrSource()
-    filters = SearchFilters(kind="video", per_page=8, min_duration=5, orientation="landscape", min_width=1280)
+    source = WikimediaSource()
+    filters = SearchFilters(kind="video", per_page=20, min_duration=3, orientation="landscape", min_width=640)
     candidate = None
     used_query = None
-    for query in ["clinical laboratory", "medical laboratory", "laboratory analyzer"]:
+    for query in ["clinical laboratory", "medical laboratory", "blood test laboratory", "laboratory"]:
         hits = source.search(query, filters)
-        if hits:
-            candidate, used_query = hits[0], query
+        suitable = [h for h in hits if h.kind == "video" and h.download_url and (h.width == 0 or h.width >= h.height)]
+        if suitable:
+            candidate, used_query = suitable[0], query
             break
     if candidate is None:
-        raise RuntimeError("Coverr returned no suitable laboratory video sample.")
+        raise RuntimeError("Wikimedia Commons returned no suitable laboratory video sample.")
 
     raw_path = project / "assets" / "video" / "sample_lab_broll_raw.mp4"
     source.download(candidate, raw_path)
@@ -79,7 +80,7 @@ def main():
     raw_path.unlink(missing_ok=True)
 
     source_record = {
-        "provider": "coverr",
+        "provider": "wikimedia",
         "query": used_query,
         "source_id": candidate.source_id,
         "source_url": candidate.source_url,
@@ -122,14 +123,14 @@ def main():
                 "id": "sample-lab-broll",
                 "type": "video",
                 "path": "assets/video/sample_lab_broll.mp4",
-                "source_tool": "coverr_stock_source",
+                "source_tool": "wikimedia_stock_source",
                 "scene_id": "s08",
                 "cost_usd": 0,
                 "duration_seconds": 8,
                 "resolution": "1280x720 preview",
                 "format": "mp4",
                 "subtype": "stock_approval_sample",
-                "generation_summary": "Representative real-motion laboratory B-roll sourced through OpenMontage Coverr adapter.",
+                "generation_summary": "Representative real-motion laboratory B-roll sourced through OpenMontage Wikimedia Commons adapter.",
                 "provider": "coverr",
                 "license": candidate.license,
                 "original_url": candidate.source_url
@@ -142,7 +143,7 @@ def main():
             "batch_generation_started": False,
             "source_vs_generated_map": {
                 "sample-narration-hook": "generated locally by Piper TTS",
-                "sample-lab-broll": "real stock footage sourced by OpenMontage"
+                "sample-lab-broll": "real Wikimedia Commons footage sourced by OpenMontage with per-file provenance"
             }
         }
     }
@@ -164,11 +165,21 @@ def main():
           "decision_id":"d-assets-002","stage":"assets","category":"provider_selection",
           "subject":"Representative laboratory B-roll source",
           "options_considered":[
-            {"option_id":"coverr","label":"Coverr stock video","score":0.90,"reason":"Real motion footage, free commercial-use license, no API key required, supported by OpenMontage."},
-            {"option_id":"wikimedia","label":"Wikimedia Commons","score":0.76,"reason":"Excellent provenance/public-license options but less consistent modern clinical B-roll."}
+            {"option_id":"coverr","label":"Coverr stock video","score":0.90,"reason":"Originally selected for modern clinical motion footage.","rejected_because":"OpenMontage Coverr request returned HTTP 401 in the execution environment."},
+            {"option_id":"wikimedia","label":"Wikimedia Commons","score":0.76,"reason":"Built-in OpenMontage source with no API key requirement and per-file license/provenance."}
           ],
-          "selected":"coverr","reason":"Best fit for a modern clinical-laboratory approval sample with clear licensing and zero API cost.",
+          "selected":"coverr","reason":"Original selection before execution exposed a Coverr authorization blocker.",
           "user_visible":true,"user_approved":false,"confidence":0.92
+        },
+        {
+          "decision_id":"d-assets-003","stage":"assets","category":"provider_selection",
+          "subject":"Representative laboratory B-roll source",
+          "options_considered":[
+            {"option_id":"wikimedia","label":"Wikimedia Commons","score":0.91,"reason":"No API key required, strong provenance, per-file licensing, and appropriate for evidence-led documentary footage."},
+            {"option_id":"coverr","label":"Coverr stock video","score":0.25,"reason":"Good creative fit but unavailable in this run.","rejected_because":"HTTP 401 Unauthorized during OpenMontage asset sample execution."}
+          ],
+          "selected":"wikimedia","reason":"User explicitly approved the provider change after the Coverr execution blocker.",
+          "user_visible":true,"user_approved":true,"confidence":0.98
         }
       ]
     }
