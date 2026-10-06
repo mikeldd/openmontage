@@ -1,0 +1,56 @@
+name: Theranos OpenMontage Full Assets
+
+on:
+  push:
+    branches:
+      - production/theranos-episode-1
+    paths:
+      - "production/theranos-episode-1/run_assets_full.py"
+      - ".github/workflows/theranos-assets-full.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      PATH: ${{ github.workspace }}/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    steps:
+      - name: Checkout OpenMontage
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install OpenMontage asset dependencies
+        run: |
+          python -m venv .venv
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install piper-tts beautifulsoup4
+
+      - name: Download Piper voice
+        run: |
+          mkdir -p "$RUNNER_TEMP/piper"
+          python -m piper.download_voices en_US-lessac-medium --data-dir "$RUNNER_TEMP/piper"
+
+      - name: Run approved OpenMontage full asset batch
+        run: python production/theranos-episode-1/run_assets_full.py --piper-dir "$RUNNER_TEMP/piper"
+
+      - name: Upload completed OpenMontage assets
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: theranos-openmontage-full-assets
+          path: projects/healthcare-autopsy-theranos-e01/
+          if-no-files-found: error
+          retention-days: 14
