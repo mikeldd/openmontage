@@ -15,6 +15,8 @@ jobs:
   assets-sample:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      PATH: ${{ github.workspace }}/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     steps:
       - name: Checkout OpenMontage
         uses: actions/checkout@v4
@@ -32,23 +34,24 @@ jobs:
       - name: Install OpenMontage asset-stage dependencies
         run: |
           python -m venv .venv
-          .venv/bin/python -m pip install --upgrade pip
-          .venv/bin/python -m pip install -r requirements.txt
-          .venv/bin/python -m pip install piper-tts beautifulsoup4
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install piper-tts beautifulsoup4
 
       - name: Download Piper approval voice
         run: |
           mkdir -p "$RUNNER_TEMP/piper"
-          .venv/bin/python -m piper.download_voices en_US-lessac-medium --data-dir "$RUNNER_TEMP/piper"
+          python -m piper.download_voices en_US-lessac-medium --data-dir "$RUNNER_TEMP/piper"
 
       - name: Run OpenMontage hybrid assets sample gate
         run: |
-          .venv/bin/python production/theranos-episode-1/run_assets_sample.py --piper-dir "$RUNNER_TEMP/piper"
+          python production/theranos-episode-1/run_assets_sample.py --piper-dir "$RUNNER_TEMP/piper"
 
       - name: Upload OpenMontage project review artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: theranos-openmontage-assets-sample
           path: projects/healthcare-autopsy-theranos-e01/
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 14
