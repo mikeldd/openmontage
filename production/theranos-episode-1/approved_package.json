@@ -1,0 +1,467 @@
+{
+  "project_id": "healthcare-autopsy-theranos-e01",
+  "title": "Healthcare Autopsy: Theranos — When the Blood Test Didn’t Work",
+  "pipeline_type": "hybrid",
+  "brief": {
+    "version": "1.0",
+    "title": "Theranos: When the Blood Test Didn’t Work",
+    "hook": "This company said it would make blood testing faster, cheaper, and less painful. Instead, it became one of the most consequential fraud cases in modern healthcare.",
+    "key_points": [
+      "Separate business failure from regulatory/compliance findings and criminal convictions.",
+      "Explain why analytical validation, specimen type, reproducibility, quality control, reportable range, and reference intervals matter clinically.",
+      "Use only precisely attributed public-record findings for CMS, SEC, DOJ, and court outcomes.",
+      "End with the practical healthcare lesson that innovation must survive clinical reality."
+    ],
+    "core_message": "In laboratory medicine, the test is the product. Commercial momentum cannot substitute for validated, reliable clinical performance.",
+    "cta": "Like, follow, subscribe, and share with someone who works in healthcare.",
+    "tone": "Sober, premium, clinician-led healthcare investigative documentary; calm authority, no sensationalism.",
+    "style": "Deep navy, muted hospital blue, white and gray; restrained red only for warnings/failures; real licensed/public-domain healthcare motion plus restrained evidence graphics.",
+    "target_audience": "Physicians, podiatrists, nurses, pharmacists, laboratory professionals, healthcare executives, practice owners, healthcare investors, and educated patients.",
+    "target_platform": "youtube",
+    "target_duration_seconds": 345,
+    "selected_angle": "Clinical validation and governance failure viewed through laboratory medicine.",
+    "metadata": {
+      "legal_guardrails": [
+        "Never say Theranos killed patients.",
+        "Do not imply all employees, physicians, pharmacy partners, investors, or laboratory professionals knew wrongdoing.",
+        "Use CMS found, SEC alleged, a jury convicted, and the court sentenced.",
+        "Do not imply every allegation was proven or every Theranos test was wrong.",
+        "No AI historical likenesses, fake patient results, fake court footage, or fake Theranos lab footage."
+      ]
+    }
+  },
+  "script": {
+    "version": "1.0",
+    "title": "Healthcare Autopsy Episode 1 — Theranos: When the Blood Test Didn’t Work",
+    "total_duration_seconds": 345,
+    "voice_performance": {
+      "performance_intent": "Calm, confident American male physician/operator. Plainspoken, measured, credible; never trailer-like or true-crime theatrical.",
+      "pacing_profile": "conversational",
+      "energy_curve": "Low-key curiosity in the opening, measured tension through the regulatory and court chronology, thoughtful resolution.",
+      "pause_policy": "Brief pauses after factual distinctions and quoted lessons; no melodramatic pauses.",
+      "sample_section_id": "hook",
+      "provider_notes": {
+        "piper": "Use a neutral U.S. English voice for the approval sample only; final voice remains subject to human approval."
+      }
+    },
+    "sections": [
+      {
+        "id": "hook",
+        "label": "Hook",
+        "start_seconds": 0,
+        "end_seconds": 20,
+        "text": "This company said it would make blood testing faster, cheaper, and less painful. Instead, it became one of the most consequential fraud cases in modern healthcare.\n\nWhen a laboratory result is wrong, the consequences are not abstract. A clinician may reassure the wrong patient, order the wrong treatment, or miss a condition that needed attention.",
+        "speaker_directions": "Measured and clinical, with slightly greater weight on 'the consequences are not abstract.'"
+      },
+      {
+        "id": "origin",
+        "label": "Origin story",
+        "start_seconds": 20,
+        "end_seconds": 65,
+        "text": "Elizabeth Holmes founded Theranos in 2003. The promise was easy to understand: perform a broad range of blood tests from a very small sample, often a finger prick, and make laboratory testing more convenient.\n\nTraditional venipuncture can be uncomfortable, and testing can involve travel and waiting. A simpler approach had obvious appeal.\n\nIn 2013, Walgreens and Theranos announced a long-term partnership to put Theranos Wellness Centers into retail pharmacies, promoting smaller samples, lower prices, and results in hours.\n\nThe question was whether the laboratory science could support the promise."
+      },
+      {
+        "id": "business",
+        "label": "Business model",
+        "start_seconds": 65,
+        "end_seconds": 115,
+        "text": "Theranos sought to build a clinical laboratory business around that experience: easier collection, consumer access, many tests, and results clinicians could use.\n\nBut in laboratory medicine, the test is the product. If the result is not reliable, there is no separate business model to save.\n\nPatient. Blood sample. Analyzer. Validated result. Clinician decision.\n\nThe validation step cannot be skipped.\n\nAccuracy and reproducibility are not optional."
+      },
+      {
+        "id": "clinician",
+        "label": "The clinician question",
+        "start_seconds": 115,
+        "end_seconds": 165,
+        "text": "Clinicians do not merely need a number on a report. They need confidence that the method is verified for the specimen and test system, that results are reproducible, quality controls behave appropriately, and reportable ranges and reference intervals make sense.\n\nCLIA gives laboratories defined responsibilities for establishing or verifying performance characteristics before patient results are reported.\n\nAnd a finger-prick specimen should not simply be assumed to behave like a venous specimen. Capillary collection has its own pre-analytic risks. Collection technique, hemolysis, handling, volume, and specimen type can affect the sample.\n\nThe central question should have been:\n\n“Was the technology validated well enough for clinicians to make decisions from the results?”\n\nLaboratory directors, pathologists, treating clinicians, and frontline staff have different roles. They do not necessarily have the same information or authority.\n\n“Healthcare credibility is not borrowed from a boardroom. It is earned through validation.”"
+      },
+      {
+        "id": "breaking",
+        "label": "Breaking point",
+        "start_seconds": 165,
+        "end_seconds": 250,
+        "text": "By late 2015, public reporting was raising questions about Theranos’s technology and laboratory practices. Regulators investigated.\n\nCMS later found that practices and procedures in Theranos’s clinical laboratory presented immediate jeopardy to patient health.\n\nThat is a regulatory finding. It is not a criminal verdict, and it should not be stretched into a claim that every Theranos test was wrong.\n\nIn June 2016, Walgreens terminated the relationship and closed Theranos Wellness Centers in its Arizona stores, citing voided test results and CMS’s rejection of Theranos’s plan of correction as sanctions were considered.\n\nIn March 2018, the SEC charged Theranos, Holmes, and Ramesh “Sunny” Balwani with civil securities fraud, alleging misleading statements about the technology, business, and financial performance.\n\nTheranos and Holmes settled. Holmes agreed to a $500,000 penalty, a ten-year public-company officer-and-director bar, the return of shares, and loss of voting control. Neither admitted nor denied the SEC’s allegations.\n\nFederal prosecutors separately charged Holmes and Balwani. Those charges were allegations until juries returned verdicts.\n\nIn January 2022, a federal jury convicted Holmes of one investor-fraud conspiracy count and three investor wire-fraud counts. The jury acquitted her on the patient-related counts submitted to it and did not reach unanimous verdicts on three additional investor counts.\n\nIn July 2022, a separate federal jury convicted Balwani on all twelve counts in his case, including investor- and patient-related fraud counts.\n\nThe court later sentenced Holmes to 135 months and Balwani to 155 months.\n\nKeep the categories separate.\n\nTheranos’s business model did not become a reliable, scalable laboratory business.\n\nLaboratory oversight and quality failures brought regulatory consequences.\n\nSeparately, juries returned the criminal fraud convictions just described.\n\nThose verdicts did not decide every allegation made about Theranos."
+      },
+      {
+        "id": "aftermath",
+        "label": "What happened next",
+        "start_seconds": 250,
+        "end_seconds": 285,
+        "text": "Theranos wound down in 2018.\n\nThe case became a warning for health-tech companies, laboratories, boards, investors, clinicians, and retail partners about commercial momentum outrunning clinical verification.\n\nThe technology pitch, the laboratory operation, and the clinical result could never be evaluated as three unrelated things."
+      },
+      {
+        "id": "lesson",
+        "label": "Practical lesson",
+        "start_seconds": 285,
+        "end_seconds": 315,
+        "text": "“The lesson is not that healthcare should avoid innovation. The lesson is that innovation in healthcare has to survive clinical reality.”\n\n“A product can have a compelling pitch, an impressive board, major investors, media attention, and a national retail partner. None of that substitutes for a test that works reliably in the hands of clinicians and patients.”\n\n“In healthcare, the business model is never separate from patient care. It determines what gets measured, what gets paid for, and sometimes what gets overlooked.”"
+      },
+      {
+        "id": "host",
+        "label": "Host closing",
+        "start_seconds": 315,
+        "end_seconds": 335,
+        "text": "I’m Dr. Mike Daniels. Thanks for watching Healthcare Autopsy, brought to you by ThePodiatryVoice.com.\n\nIf you found this useful, please like, follow, subscribe, and share this video with someone who works in healthcare.\n\nI’ll see you in the next episode.",
+        "speaker_directions": "Final production requires Dr. Mike Daniels host footage. Do not create or substitute an AI likeness."
+      },
+      {
+        "id": "sources",
+        "label": "Works cited",
+        "start_seconds": 335,
+        "end_seconds": 345,
+        "text": "This episode is educational commentary based on public records and cited sources."
+      }
+    ],
+    "metadata": {
+      "approved_by_user": true
+    }
+  },
+  "scene_plan": {
+    "version": "1.0",
+    "scenes": [
+      {
+        "id": "s01",
+        "type": "broll",
+        "description": "Macro finger-prick blood collection, real licensed stock.",
+        "start_seconds": 0,
+        "end_seconds": 6,
+        "script_section_id": "hook",
+        "narrative_role": "introduce_subject",
+        "information_role": "Establish blood testing as the clinical object.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Finger-prick collection, no identifiable patient implication.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s02",
+        "type": "broll",
+        "description": "Modern clinical laboratory analyzer in motion, real licensed stock.",
+        "start_seconds": 6,
+        "end_seconds": 12,
+        "script_section_id": "hook",
+        "narrative_role": "build_tension",
+        "information_role": "Connect sample to analyzer.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Clinical lab analyzer motion footage.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s03",
+        "type": "animation",
+        "description": "Clinician-results-to-title evidence montage, official-source labels only.",
+        "start_seconds": 12,
+        "end_seconds": 20,
+        "script_section_id": "hook",
+        "narrative_role": "deliver_payload",
+        "information_role": "Introduce documentary thesis without fabricated documents.",
+        "required_assets": [
+          {
+            "type": "animation",
+            "description": "Title and official-source evidence callouts.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s04",
+        "type": "broll",
+        "description": "Generic Silicon Valley / Palo Alto establishing motion; no fake Theranos office.",
+        "start_seconds": 20,
+        "end_seconds": 35,
+        "script_section_id": "origin",
+        "narrative_role": "establish_context",
+        "information_role": "Locate the startup story.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Silicon Valley establishing footage.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s05",
+        "type": "broll",
+        "description": "Venipuncture versus capillary collection split-screen.",
+        "start_seconds": 35,
+        "end_seconds": 50,
+        "script_section_id": "origin",
+        "narrative_role": "comparison",
+        "information_role": "Show the convenience premise.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Venipuncture and capillary sampling.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s06",
+        "type": "broll",
+        "description": "Generic pharmacy/retail exterior plus authentic 2013 Walgreens-Theranos announcement as document callout.",
+        "start_seconds": 50,
+        "end_seconds": 65,
+        "script_section_id": "origin",
+        "narrative_role": "evidence",
+        "information_role": "Establish the retail partnership claim with source attribution.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Generic pharmacy exterior.",
+            "source": "source"
+          },
+          {
+            "type": "image",
+            "description": "Authentic public announcement excerpt.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s07",
+        "type": "diagram",
+        "description": "Animated workflow: Patient → blood sample → analyzer → VALIDATION → result → clinician decision.",
+        "start_seconds": 65,
+        "end_seconds": 95,
+        "script_section_id": "business",
+        "narrative_role": "deliver_payload",
+        "information_role": "Explain the laboratory product chain.",
+        "hero_moment": true,
+        "required_assets": [
+          {
+            "type": "diagram",
+            "description": "Workflow with VALIDATION emphasized and Accuracy and reproducibility are not optional.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s08",
+        "type": "broll",
+        "description": "Laboratory technologist performing analyzer QC.",
+        "start_seconds": 95,
+        "end_seconds": 125,
+        "script_section_id": "clinician",
+        "narrative_role": "evidence",
+        "information_role": "Show quality-control work.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Lab technologist and analyzer QC.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s09",
+        "type": "animation",
+        "description": "Performance-characteristics checklist: specimen type, accuracy, precision, QC, reportable range, reference interval.",
+        "start_seconds": 125,
+        "end_seconds": 145,
+        "script_section_id": "clinician",
+        "narrative_role": "deliver_payload",
+        "information_role": "Translate CLIA/laboratory concepts visually.",
+        "required_assets": [
+          {
+            "type": "animation",
+            "description": "Clinical validation checklist.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s10",
+        "type": "diagram",
+        "description": "Capillary-versus-venous split with pre-analytic risk labels and validation question.",
+        "start_seconds": 145,
+        "end_seconds": 165,
+        "script_section_id": "clinician",
+        "narrative_role": "comparison",
+        "information_role": "Explain why specimen types are not assumed interchangeable.",
+        "required_assets": [
+          {
+            "type": "diagram",
+            "description": "Capillary vs venous comparison with restrained labels.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s11",
+        "type": "animation",
+        "description": "Timeline begins late 2015 with official/public-record source labels; no unlicensed news footage montage.",
+        "start_seconds": 165,
+        "end_seconds": 185,
+        "script_section_id": "breaking",
+        "narrative_role": "evidence",
+        "information_role": "Begin chronology of scrutiny.",
+        "required_assets": [
+          {
+            "type": "animation",
+            "description": "2015 chronology timeline.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s12",
+        "type": "animation",
+        "description": "CMS/HHS regulatory card quoting immediate-jeopardy finding precisely.",
+        "start_seconds": 185,
+        "end_seconds": 205,
+        "script_section_id": "breaking",
+        "narrative_role": "evidence",
+        "information_role": "Separate regulatory finding from criminal verdict.",
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Official CMS/HHS decision excerpt.",
+            "source": "source"
+          },
+          {
+            "type": "animation",
+            "description": "Regulatory label treatment.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s13",
+        "type": "animation",
+        "description": "Walgreens 2016 relationship termination timeline and SEC 2018 civil-allegation card.",
+        "start_seconds": 205,
+        "end_seconds": 225,
+        "script_section_id": "breaking",
+        "narrative_role": "evidence",
+        "information_role": "Keep commercial and civil developments distinct.",
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Walgreens termination release and SEC release excerpts.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s14",
+        "type": "animation",
+        "description": "DOJ/court verdict and sentence cards, Holmes and Balwani shown separately; no fabricated courtroom.",
+        "start_seconds": 225,
+        "end_seconds": 250,
+        "script_section_id": "breaking",
+        "narrative_role": "evidence",
+        "information_role": "State proven criminal outcomes precisely.",
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "DOJ and federal court source excerpts.",
+            "source": "source"
+          },
+          {
+            "type": "animation",
+            "description": "Separate verdict/sentence cards.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s15",
+        "type": "diagram",
+        "description": "Three-column distinction: BUSINESS FAILURE / REGULATORY & COMPLIANCE FAILURE / CRIMINAL CONVICTIONS.",
+        "start_seconds": 250,
+        "end_seconds": 270,
+        "script_section_id": "aftermath",
+        "narrative_role": "comparison",
+        "information_role": "Reinforce legal/editorial separation.",
+        "hero_moment": true,
+        "required_assets": [
+          {
+            "type": "diagram",
+            "description": "Three-column category distinction.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s16",
+        "type": "broll",
+        "description": "Empty/quiet modern laboratory and corporate wind-down imagery, generic licensed stock.",
+        "start_seconds": 270,
+        "end_seconds": 285,
+        "script_section_id": "aftermath",
+        "narrative_role": "resolution",
+        "information_role": "Transition from chronology to lesson.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Quiet laboratory/corporate wind-down B-roll.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s17",
+        "type": "broll",
+        "description": "Modern laboratory, clinician review and QC work under closing lessons.",
+        "start_seconds": 285,
+        "end_seconds": 315,
+        "script_section_id": "lesson",
+        "narrative_role": "resolution",
+        "information_role": "Return focus to present-day clinical practice.",
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Modern laboratory and clinician review B-roll.",
+            "source": "source"
+          }
+        ]
+      },
+      {
+        "id": "s18",
+        "type": "text_card",
+        "description": "HOST FOOTAGE REQUIRED — DR. MIKE DANIELS placeholder; never substitute AI likeness.",
+        "start_seconds": 315,
+        "end_seconds": 335,
+        "script_section_id": "host",
+        "narrative_role": "call_to_action",
+        "information_role": "Reserve final host shot.",
+        "required_assets": [
+          {
+            "type": "animation",
+            "description": "Tasteful host-footage placeholder slate.",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "s19",
+        "type": "text_card",
+        "description": "Readable works-cited end screen with public-record disclaimer.",
+        "start_seconds": 335,
+        "end_seconds": 345,
+        "script_section_id": "sources",
+        "narrative_role": "resolution",
+        "information_role": "Close with source transparency.",
+        "required_assets": [
+          {
+            "type": "animation",
+            "description": "Works cited card.",
+            "source": "generate"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "approved_by_user": true,
+      "captions": "Burned-in, high contrast, maximum two lines, title safe."
+    }
+  }
+}
