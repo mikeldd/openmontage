@@ -71,8 +71,8 @@ jobs:
           [0:v]trim=start=285:end=315,setpts=1.0401*(PTS-STARTPTS)[v6];\
           [0:v]trim=start=315:end=335,setpts=0.7083*(PTS-STARTPTS)[v7];\
           [0:v]trim=start=335:end=345,setpts=0.5212*(PTS-STARTPTS)[v8];\
-          [v0][v1][v2][v3][v4][v5][v6][v7][v8]concat=n=9:v=1:a=0[v]" \
-          -map "[v]" -an -c:v libx264 -preset medium -crf 18 -pix_fmt yuv420p retimed_video.mp4
+          [v0][v1][v2][v3][v4][v5][v6][v7][v8]concat=n=9:v=1:a=0,fps=30[v]" \
+          -map "[v]" -an -c:v libx264 -preset ultrafast -crf 20 -pix_fmt yuv420p -threads 4 retimed_video.mp4
 
       - name: Speed Benjamin narration to 142 WPM and rebuild soundtrack
         env:
