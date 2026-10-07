@@ -1,0 +1,103 @@
+name: Theranos Benjamin Revoice
+
+on:
+  push:
+    branches:
+      - production/theranos-episode-1
+    paths:
+      - ".github/workflows/theranos-benjamin-revoice.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  revoice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download final OpenMontage master
+        uses: actions/download-artifact@v4
+        with:
+          name: healthcare-autopsy-theranos-openmontage-final
+          path: final-master
+          github-token: ${{ github.token }}
+          repository: mikeldd/openmontage
+          run-id: 37517631399
+
+      - name: Download full OpenMontage assets
+        uses: actions/download-artifact@v4
+        with:
+          name: theranos-openmontage-full-assets
+          path: full-assets
+          github-token: ${{ github.token }}
+          repository: mikeldd/openmontage
+          run-id: 37511241829
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Download approved Benjamin narration
+        run: |
+          curl -L --fail --retry 3 --output benjamin.m4a 'https://production-273614-media-export.storage.googleapis.com/3c2b02b9-a0a7-42bd-a0d4-6c70d6dc7cd5/original.m4a?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=descript-api%40production-273614.iam.gserviceaccount.com%2F20261007%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261007T095243Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=535c8cf26113bdbfecf4719a0bbbb911c8b26aef4275184e0e1c17cdf4280c83125954121d4646a1992930fe1df1646d622d72f607d8f54a33d2a2949f13e9bfae1fb8d64083eb51b889a9aeaa0f56913b9fd9a931709fc51624bfd135dcf336cc831080eef1c8dcbe9da92857fe33ba0b19462bb0afa9122bb6e50c968efdb7de6663ed4c2b696a675ecc1df85e35a361b2dd859c9c41a747c5e29cd88761a591f15e2f7120020d410738b871a321a20d5d534261d63fd5bfe75966d1d1523a5e61e728d1f00d5f0da1000ad4d3ce23e1abb881a1b51138e52b5c770db22dadd308b91ed4ba4c4fcd5ba4113351d133a89859ab145ba115d7cf54b7e50c16cd'
+          ffprobe -v error -show_entries format=duration -of default=nw=1:nk=1 benjamin.m4a
+
+      - name: Locate OpenMontage media
+        id: media
+        run: |
+          MASTER=$(find final-master -type f -name 'healthcare_autopsy_theranos_episode_1.mp4' -print -quit)
+          MUSIC=$(find full-assets -type f -name 'documentary_underscore.mp3' -print -quit)
+          test -n "$MASTER"
+          test -n "$MUSIC"
+          echo "master=$MASTER" >> "$GITHUB_OUTPUT"
+          echo "music=$MUSIC" >> "$GITHUB_OUTPUT"
+
+      - name: Retime picture by approved chapter boundaries
+        env:
+          MASTER: ${{ steps.media.outputs.master }}
+        run: |
+          ffmpeg -y -i "$MASTER" -filter_complex "\
+          [0:v]trim=start=0:end=20,setpts=1.0279*(PTS-STARTPTS)[v0];\
+          [0:v]trim=start=20:end=65,setpts=0.8122*(PTS-STARTPTS)[v1];\
+          [0:v]trim=start=65:end=115,setpts=0.5866*(PTS-STARTPTS)[v2];\
+          [0:v]trim=start=115:end=165,setpts=1.1952*(PTS-STARTPTS)[v3];\
+          [0:v]trim=start=165:end=250,setpts=1.4703*(PTS-STARTPTS)[v4];\
+          [0:v]trim=start=250:end=285,setpts=0.5979*(PTS-STARTPTS)[v5];\
+          [0:v]trim=start=285:end=315,setpts=1.0401*(PTS-STARTPTS)[v6];\
+          [0:v]trim=start=315:end=335,setpts=0.7083*(PTS-STARTPTS)[v7];\
+          [0:v]trim=start=335:end=345,setpts=0.5212*(PTS-STARTPTS)[v8];\
+          [v0][v1][v2][v3][v4][v5][v6][v7][v8]concat=n=9:v=1:a=0[v]" \
+          -map "[v]" -an -c:v libx264 -preset medium -crf 18 -pix_fmt yuv420p retimed_video.mp4
+
+      - name: Speed Benjamin narration to 142 WPM and rebuild soundtrack
+        env:
+          MUSIC: ${{ steps.media.outputs.music }}
+        run: |
+          ffmpeg -y -i benjamin.m4a -filter:a "atempo=1.051194" -ar 48000 -ac 2 benjamin_142wpm.wav
+          ffmpeg -y -i benjamin_142wpm.wav -stream_loop -1 -i "$MUSIC" -filter_complex "\
+          [1:a]volume=0.055,afade=t=in:d=2,afade=t=out:st=337.7:d=5[m];\
+          [0:a][m]amix=inputs=2:duration=first:dropout_transition=2,loudnorm=I=-14:LRA=11:TP=-1.5[a]" \
+          -map "[a]" -t 342.676 -c:a aac -b:a 192k soundtrack.m4a
+
+      - name: Create revised master
+        run: |
+          ffmpeg -y -i retimed_video.mp4 -i soundtrack.m4a -map 0:v:0 -map 1:a:0 \
+            -c:v copy -c:a copy -t 342.676 -movflags +faststart \
+            healthcare_autopsy_theranos_episode_1_benjamin.mp4
+          ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_name,width,height,r_frame_rate -of json healthcare_autopsy_theranos_episode_1_benjamin.mp4 > revised_probe.json
+          cat revised_probe.json
+
+      - name: Upload revised episode
+        uses: actions/upload-artifact@v4
+        with:
+          name: healthcare-autopsy-theranos-benjamin-final
+          path: |
+            healthcare_autopsy_theranos_episode_1_benjamin.mp4
+            revised_probe.json
+          if-no-files-found: error
+          retention-days: 14
