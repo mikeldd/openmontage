@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "profile_id": "healthcare-autopsy-default-narrator",
+  "default_for": "Healthcare Autopsy and future video narration unless explicitly overridden",
+  "voice_provider": "Descript / ElevenLabs stock voice",
+  "voice_name": "Benjamin",
+  "voice_id": "rBBV1yn6Ib1hDeOTrn08",
+  "gender": "male",
+  "accent": "American English",
+  "perceived_age": "45-60",
+  "role_tone": "physician/executive",
+  "delivery": [
+    "calm",
+    "credible",
+    "warm but restrained"
+  ],
+  "target_wpm": "140-145",
+  "dramatization": "minimal",
+  "avoid": [
+    "radio announcer",
+    "movie trailer",
+    "true crime",
+    "ominous cadence",
+    "sensational news delivery"
+  ],
+  "approved_by_user": true,
+  "approved_date": "2026-10-07"
+}
