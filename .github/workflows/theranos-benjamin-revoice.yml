@@ -57,36 +57,41 @@ jobs:
           echo "master=$MASTER" >> "$GITHUB_OUTPUT"
           echo "music=$MUSIC" >> "$GITHUB_OUTPUT"
 
-      - name: Retime picture by approved chapter boundaries
-        env:
-          MASTER: ${{ steps.media.outputs.master }}
+      - name: Retime Benjamin narration to approved OpenMontage chapter boundaries
         run: |
-          ffmpeg -y -i "$MASTER" -filter_complex "\
-          [0:v]trim=start=0:end=20,setpts=1.0279*(PTS-STARTPTS)[v0];\
-          [0:v]trim=start=20:end=65,setpts=0.8122*(PTS-STARTPTS)[v1];\
-          [0:v]trim=start=65:end=115,setpts=0.5866*(PTS-STARTPTS)[v2];\
-          [0:v]trim=start=115:end=165,setpts=1.1952*(PTS-STARTPTS)[v3];\
-          [0:v]trim=start=165:end=250,setpts=1.4703*(PTS-STARTPTS)[v4];\
-          [0:v]trim=start=250:end=285,setpts=0.5979*(PTS-STARTPTS)[v5];\
-          [0:v]trim=start=285:end=315,setpts=1.0401*(PTS-STARTPTS)[v6];\
-          [0:v]trim=start=315:end=335,setpts=0.7083*(PTS-STARTPTS)[v7];\
-          [0:v]trim=start=335:end=345,setpts=0.5212*(PTS-STARTPTS)[v8];\
-          [v0][v1][v2][v3][v4][v5][v6][v7][v8]concat=n=9:v=1:a=0,fps=30[v]" \
-          -map "[v]" -an -c:v libx264 -preset ultrafast -crf 20 -pix_fmt yuv420p -threads 4 retimed_video.mp4
+          # Benjamin source section boundaries from the verified Descript transcript:
+          # 0-21.610, 21.610-60.029, 60.029-90.859, 90.859-153.680,
+          # 153.680-264.409, 264.409-307.049, 307.049-339.850,
+          # 339.850-354.740, 354.740-360.219
+          # Target OpenMontage section durations:
+          # 20, 45, 50, 50, 85, 35, 30, 20, 10 seconds
+          ffmpeg -y -i benjamin.m4a -filter_complex "\
+          [0:a]atrim=start=0:end=21.610,asetpts=PTS-STARTPTS,atempo=1.0805[a0];\
+          [0:a]atrim=start=21.610:end=60.029,asetpts=PTS-STARTPTS,atempo=0.8538[a1];\
+          [0:a]atrim=start=60.029:end=90.859,asetpts=PTS-STARTPTS,atempo=0.6166[a2];\
+          [0:a]atrim=start=90.859:end=153.680,asetpts=PTS-STARTPTS,atempo=1.2564[a3];\
+          [0:a]atrim=start=153.680:end=264.409,asetpts=PTS-STARTPTS,atempo=1.3027[a4];\
+          [0:a]atrim=start=264.409:end=307.049,asetpts=PTS-STARTPTS,atempo=1.2183[a5];\
+          [0:a]atrim=start=307.049:end=339.850,asetpts=PTS-STARTPTS,atempo=1.0934[a6];\
+          [0:a]atrim=start=339.850:end=354.740,asetpts=PTS-STARTPTS,atempo=0.7445[a7];\
+          [0:a]atrim=start=354.740:end=360.219,asetpts=PTS-STARTPTS,atempo=0.5479[a8];\
+          [a0][a1][a2][a3][a4][a5][a6][a7][a8]concat=n=9:v=0:a=1,apad=pad_dur=1,atrim=duration=345[benjamin]" \
+          -map "[benjamin]" -ar 48000 -ac 2 -c:a pcm_s16le benjamin_openmontage_timed.wav
 
-      - name: Speed Benjamin narration to 142 WPM and rebuild soundtrack
+      - name: Rebuild soundtrack with Benjamin and original music
         env:
           MUSIC: ${{ steps.media.outputs.music }}
         run: |
-          ffmpeg -y -i benjamin.m4a -filter:a "atempo=1.051194" -ar 48000 -ac 2 benjamin_142wpm.wav
-          ffmpeg -y -i benjamin_142wpm.wav -stream_loop -1 -i "$MUSIC" -filter_complex "\
-          [1:a]volume=0.055,afade=t=in:d=2,afade=t=out:st=337.7:d=5[m];\
+          ffmpeg -y -i benjamin_openmontage_timed.wav -stream_loop -1 -i "$MUSIC" -filter_complex "\
+          [1:a]volume=0.055,afade=t=in:d=2,afade=t=out:st=340:d=5[m];\
           [0:a][m]amix=inputs=2:duration=first:dropout_transition=2,loudnorm=I=-14:LRA=11:TP=-1.5[a]" \
-          -map "[a]" -t 342.676 -c:a aac -b:a 192k soundtrack.m4a
+          -map "[a]" -t 345 -c:a aac -b:a 192k soundtrack.m4a
 
       - name: Create revised master
+        env:
+          MASTER: ${{ steps.media.outputs.master }}
         run: |
-          ffmpeg -y -i retimed_video.mp4 -i soundtrack.m4a -map 0:v:0 -map 1:a:0 \
+          ffmpeg -y -i "$MASTER" -i soundtrack.m4a -map 0:v:0 -map 1:a:0 \
             -c:v copy -c:a copy -t 342.676 -movflags +faststart \
             healthcare_autopsy_theranos_episode_1_benjamin.mp4
           ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_name,width,height,r_frame_rate -of json healthcare_autopsy_theranos_episode_1_benjamin.mp4 > revised_probe.json
